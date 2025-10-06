@@ -10,6 +10,84 @@ namespace hangman
     {
         static void Main(string[] args)
         {
+            string[] gallows = {
+@"
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========
+",
+@"
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========
+",
+@"
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========
+",
+@"
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========
+",
+@"
+  +---+
+  |   |
+  O   |
+ /|\  |
+      |
+      |
+=========
+",
+@"
+  +---+
+  |   |
+  O   |
+ /|\  |
+ /    |
+      |
+=========
+",
+@"
+  +---+
+  |   |
+  O   |
+ /|\  |
+ / \  |
+      |
+=========
+"
+            };
+            Console.Write(gallows[0]);
         }
+    }
+    class Word
+    {
+        string word;
+        string[] wordlist = {"apple", "river", "mountain", "dream", "light", "forest", "shadow", "ocean", "storm", "music", "flame", "whisper", "mirror", "stone", "gold", "silver", "cloud", "garden", "path", "wind", "star", "flower", "sand", "sky", "rain", "tree", "valley", "island", "echo", "fire", "wave", "heart", "night", "sun", "moon", "bird", "leaf", "glass", "snow", "rose", "bridge", "tower", "field", "door", "voice", "dreamer", "seed", "song", "time", "hope"};
+        char[] correct_guesses;
+        int letter_pos;
+    }
+    class Wrong_guesses
+    {
+        int num_wrong = 0;
+        char[] wrong_guesses;
     }
 }
