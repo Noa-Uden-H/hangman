@@ -88,15 +88,23 @@ namespace hangman
 
             while (i == 1)
             {
+                if (word.Word_.SequenceEqual(word.Correct))
+                {
+                    i = 0;
+                    Console.WriteLine("You Won! Yay\r\nThe word was {0}", word.Word_);
+                    return;
+                }
+                if (mistakes.Num_wrong == 6)
+                {
+                    i = 0;
+                    Console.WriteLine("You Lost! Lol\r\nThe word was {0}", string.Concat(word.Word_));
+                    return;
+                }
                 if (!(word.Word_.SequenceEqual(word.Correct) || mistakes.Num_wrong == 7))
                 {
                     Round(word, mistakes);
                 }
-                if (word.Word_.SequenceEqual(word.Correct))
-                {
-                    i = 0;
-                    Console.WriteLine("You Won! Yay\r\nThe word was {0}",word.Word_);
-                }
+                
             }
             
         }
@@ -104,7 +112,7 @@ namespace hangman
         static void Round(Word word, Mistakes mistakes)
         {
             Console.WriteLine(Globals.gallows[mistakes.Num_wrong]);
-            Console.WriteLine(mistakes.Wrong_guesses);
+            Console.WriteLine(string.Join(" ", mistakes.Wrong_guesses));
             word.show_correct_guesses();
             word.guess(mistakes);
             Console.Clear();
@@ -203,7 +211,7 @@ namespace hangman
         public void wrong_guess(char letter)
         {
             num_wrong++;
-            wrong_guesses.Append(letter);
+            wrong_guesses.Add(letter);
         }
     }
 }
