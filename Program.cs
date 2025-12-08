@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace hangman
 {
-    internal class Program
+    public static class Globals
     {
-        static void Main(string[] args)
-        {
-            string[] gallows = {
+        public static string[] gallows = {
 @"
   +---+
   |   |
@@ -75,13 +73,19 @@ namespace hangman
 =========
 "
             };
+    }
+    
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
             Word word = new Word();
-            Wrong_guesses wrong = new Wrong_guesses();
+            Mistakes mistakes = new Mistakes();
             word.show_word();
             word.show_correct_guesses();
-            Console.Write(gallows[0]);
+            Console.Write(Globals.gallows[0]);
 
-            word.guess();
+            word.guess(mistakes);
 
             word.show_correct_guesses();
         }
@@ -126,7 +130,7 @@ namespace hangman
             }
         }
 
-        public void guess()
+        public void guess(Mistakes mistakes)
         {
             Console.WriteLine("Guess: ");
             char guess = Char.ToLower(Convert.ToChar(Console.ReadLine()));
@@ -135,23 +139,42 @@ namespace hangman
             {
                 guess_loop(guess);
             }
+            else
+            {
+                mistakes.wrong_guess(guess);
+            }
         }
 
         private void guess_loop(char guess)
         {
-            for (int i = 0; 0 < word.Length; i++)
+            for (int i = 0; i < word.Length; i++)
             {
                 if (word[i] == guess)
                 {
-                    word[i] = guess;
+                    correct[i] = guess;
                 }
             }
         }
     }
 
-    class Wrong_guesses
+    class Mistakes
     {
-        int num_wrong = 0;
-        char[] wrong_guesses;
+        private int num_wrong = 0;
+        public int Num_wrong
+        {
+            get { return num_wrong; }
+            set { num_wrong = value; }
+        }
+        private List<char> wrong_guesses = new List<char>();
+        public List<char> Wrong_guesses
+        {
+            get { return wrong_guesses; }
+        }
+
+        public void wrong_guess(char letter)
+        {
+            num_wrong++;
+            wrong_guesses.Append(letter);
+        }
     }
 }
