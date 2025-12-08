@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -82,21 +83,48 @@ namespace hangman
             Word word = new Word();
             Mistakes mistakes = new Mistakes();
             word.show_word();
-            word.show_correct_guesses();
-            Console.Write(Globals.gallows[0]);
 
-            word.guess(mistakes);
+            int i = 1;
 
-            word.show_correct_guesses();
+            while (i == 1)
+            {
+                if (!(word.Word_.SequenceEqual(word.Correct) || mistakes.Num_wrong == 7))
+                {
+                    Round(word, mistakes);
+                }
+                if (word.Word_.SequenceEqual(word.Correct))
+                {
+                    i = 0;
+                    Console.WriteLine("You Won! Yay\r\nThe word was {0}",word.Word_);
+                }
+            }
+            
         }
 
+        static void Round(Word word, Mistakes mistakes)
+        {
+            Console.WriteLine(Globals.gallows[mistakes.Num_wrong]);
+            Console.WriteLine(mistakes.Wrong_guesses);
+            word.show_correct_guesses();
+            word.guess(mistakes);
+            Console.Clear();
+        }
     }
     
     class Word
     {
-        char[] word;
+        private char[] word;
+        public char[] Word_
+        {
+            get { return word; }
+        }
+
         string[] wordlist = {"apple", "river", "mountain", "dream", "light", "forest", "shadow", "ocean", "storm", "music", "flame", "whisper", "mirror", "stone", "gold", "silver", "cloud", "garden", "path", "wind", "star", "flower", "sand", "sky", "rain", "tree", "valley", "island", "echo", "fire", "wave", "heart", "night", "sun", "moon", "bird", "leaf", "glass", "snow", "rose", "bridge", "tower", "field", "door", "voice", "dreamer", "seed", "song", "time", "hope", "biatch"};
-        char[] correct;
+        private char[] correct;
+        public char[] Correct
+        {
+            get { return correct; }
+        }
 
         public Word()
         {
@@ -128,6 +156,7 @@ namespace hangman
                 Console.Write(correct[i]);
                 Console.Write(" ");
             }
+            Console.WriteLine(" ");
         }
 
         public void guess(Mistakes mistakes)
